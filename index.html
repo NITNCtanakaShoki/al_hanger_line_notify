@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LINE登録</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="input">
+        <button @click="add">追加</button>
+        <button @click="remove">削除</button>
+        <button @click="test">テスト</button>
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                input: ''
+            },
+            methods: {
+                uri() {
+                    return location.protocol + "//" + location.host
+                },
+                inputUri() {
+                    return this.uri() + '/' + this.input
+                },
+                refresh() {
+                    this.input = ''
+                },
+                add() {
+                    fetch(this.inputUri(), {
+                        method: 'POST'
+                    })
+                    this.refresh()
+                },
+                remove() {
+                    fetch(this.inputUri(), {
+                        method: 'DELETE'
+                    })
+                    this.refresh()
+                },
+                test() {
+                    fetch(`${this.uri()}/temperature/humidity`)
+                }
+            }
+        })
+    </script>
+</body>
+</html>
